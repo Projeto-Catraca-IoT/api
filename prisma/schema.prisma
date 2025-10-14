@@ -25,6 +25,9 @@ model Location {
   max_people     Int
   current_people Int      @default(0)
   created_at     DateTime @default(now())
+  logo_image     String
+  description    String
+  google_maps_url String
 
   userId Int
   user   User     @relation(fields: [userId], references: [id])
