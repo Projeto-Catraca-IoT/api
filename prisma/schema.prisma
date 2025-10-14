@@ -1,0 +1,53 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  pass_hash  String
+  created_at DateTime @default(now())
+
+  locations  Location[]  // One user can have many locations
+}
+
+model Location {
+  id             Int      @id @default(autoincrement())
+  name           String
+  address        String
+  max_people     Int
+  current_people Int      @default(0)
+  created_at     DateTime @default(now())
+
+  userId Int
+  user   User     @relation(fields: [userId], references: [id])
+
+  turnstiles Turnstile[]
+}
+
+model Turnstile {
+  id          Int      @id @default(autoincrement())
+  location_id Int
+  tag         String   @unique
+  status      String
+  created_at  DateTime @default(now())
+
+  location Location @relation(fields: [location_id], references: [id])
+  histories History[]
+}
+
+model History {
+  id            Int      @id @default(autoincrement())
+  turnstile_id  Int
+  operation     String
+  created_at    DateTime @default(now())
+
+  turnstile Turnstile @relation(fields: [turnstile_id], references: [id])
+}
