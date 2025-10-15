@@ -1,6 +1,6 @@
 import { register as registerService, login as loginService } from '../services/auth.js';
 
-//Register
+//Registro
 export const register = (request, response) => {
     try {
         registerService(request, response);

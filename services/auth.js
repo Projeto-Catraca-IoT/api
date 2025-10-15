@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient()
@@ -37,6 +37,7 @@ export const register = async (request, response) => {
         return response.status(201).json({ message: 'Usuário registrado' });
 
     } catch (error) {
+        return response.status(500).json({ message: 'Erro ao realizar registro' });
     }
 }
 
@@ -84,7 +85,6 @@ export const login = async (request, response) => {
         });
 
     } catch (error) {
-        console.error(error);
         return response.status(500).json({ message: 'Erro ao fazer login' });
     }
 }
