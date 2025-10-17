@@ -88,3 +88,21 @@ export const login = async (request, response) => {
         return response.status(500).json({ message: 'Erro ao fazer login' });
     }
 }
+
+export const locations = async (request, response) => {
+    try {
+        const userId = request.authId; // Pega do middleware
+
+        const userLocations = await prisma.Location.findMany({
+            where: {
+                userId: userId
+            }
+        });
+
+        return response.status(200).json({data: userLocations});
+
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Erro ao buscar por locais' });
+    }
+}

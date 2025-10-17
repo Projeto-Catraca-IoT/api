@@ -1,19 +1,19 @@
 import jwt from 'jsonwebtoken'
 
-export const authMiddleware = (request, response, next) =>{
+export const auth = (request, response, next) => {
     const JWT_SECRET = process.env.JWT_SECRET
-    
     const token = request.headers.authorization
 
-    if(!token){
-        return response.status(401).json({message: 'Denied access'})
+    if (!token) {
+        return response.status(401).json({ message: 'Acesso negado' })
     }
-    
-    try{
+
+    try {
         const decoded = jwt.verify(token.replace('Bearer ', ''), JWT_SECRET)
-    }catch(error){
-        return response.status(401).json({message: 'Invalid token'})
+        request.authId = decoded.id;
+    } catch (error) {
+        return response.status(401).json({ message: 'Token inválido' })
     }
-    
+
     next()
 }
