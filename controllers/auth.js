@@ -1,4 +1,4 @@
-import { register as registerService, login as loginService } from '../services/auth.js';
+import { register as registerService, login as loginService, locations as locationsService } from '../services/auth.js';
 
 //Registro
 export const register = (request, response) => {
@@ -15,5 +15,13 @@ export const login = (request, response) => {
         loginService(request, response);
     } catch (error) {
         response.status(500).json({ message: "Erro inesperado ao tentar logar" })
+    }
+}
+
+export const locations = (request, response) => {
+    try {
+        locationsService(request, response);
+    } catch (error) {
+        response.status(500).json({ message: "Erro inesperado ao recuperar locais" })
     }
 }
