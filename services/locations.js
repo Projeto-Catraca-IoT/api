@@ -1,11 +1,7 @@
 import crypto from 'crypto';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../config/database.js';
 import jwt from 'jsonwebtoken';
-import multer from 'multer';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { v4 as uuidv4 } from 'uuid';
 
-const prisma = new PrismaClient()
 const JWT_SECRET = process.env.JWT_SECRET
 
 export const locationsAll = async (request, response) => {
