@@ -1,4 +1,4 @@
-import { locationsAll as locationsAllService, locationsCreate as locationsCreateService, locationsInfo as locationsInfoService, locationsDelete as locationsDeleteService } from '../services/locations.js';
+import { locationsAll as locationsAllService, locationsCreate as locationsCreateService, locationsInfo as locationsInfoService, locationsDelete as locationsDeleteService, locationsEdit as locationsEditService } from '../services/locations.js';
 
 //Recuperar todos os locais
 export const locationsAll = (request, response) => {
