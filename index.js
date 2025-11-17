@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/', public_routes);
 app.use('/', private_routes);
 
-const SERVER_PORT = process.env.PORT || 3000;
+const SERVER_PORT = 3000;
 
 app.listen(SERVER_PORT, () => {
   console.log(`The server is running on ${SERVER_PORT}`);
