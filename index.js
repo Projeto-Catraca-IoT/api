@@ -1,11 +1,21 @@
 import express from 'express';
+import cors from 'cors';
 import {router as public_routes} from './routes/public.js';
-import {router as private_routes} from './routes/private.js'; // <- Confirme o caminho
+import {router as private_routes} from './routes/private.js';
 import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
+
+// Configurar CORS
+app.use(cors({
+  origin: [
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Use test route

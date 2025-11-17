@@ -46,15 +46,13 @@ export const locationsCreate = async (request, response) => {
 
 export const locationsInfo = async (request, response) => {
     try {
-        const userId = request.authId; // Pega do middleware
+        const location_id = Number(request.params.id);
 
-        const userLocations = await prisma.Location.findMany({
-            where: {
-                userId: userId
-            }
+        const location = await prisma.location.findUnique({
+            where: { id: location_id },
         });
 
-        return response.status(200).json({ data: userLocations });
+        return response.status(200).json({ data: location });
 
     } catch (error) {
         console.error(error);

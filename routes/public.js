@@ -1,6 +1,6 @@
 import express from 'express';
 import {login as loginController, register as registerController} from '../controllers/auth.js';
-import { locationsAll as locationsAllController, locationsInfo as locationsInfoController } from '../services/locations.js';
+import { locationsAll as locationsAllController, locationsInfo as locationsInfoController } from '../controllers/locations.js';
 //Middlewares
 import {register} from '../middlewares/register.js'
 import {login} from '../middlewares/login.js'
@@ -14,5 +14,5 @@ router.post('/auth/login', login, loginController);
 
 //Rota para ver todos os locais
 router.get('/locations', locationsAllController);
-//Rota para ver todos os locais
+//Rota para ver um local em específico
 router.get('/locations/:id', locationsInfoController);
