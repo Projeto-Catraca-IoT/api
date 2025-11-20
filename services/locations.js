@@ -62,30 +62,42 @@ export const locationsInfo = async (request, response) => {
 
 export const locationsEdit = async (request, response) => {
     try {
-
         const location_id = Number(request.params.id);
-
         const location = await prisma.location.findUnique({
             where: { id: location_id },
         });
 
-        const { name, max_people, address, description, logo_image, google_maps_url } = request.body;
-
-        if (!name && !max_people && !address && !description && !logo_image && !google_maps_url) {
-            return response.status(400).json({ message: "Envie ao menos um campo para ser editado" });
+        if (!location) {
+            return response.status(404).json({ message: "Local não encontrado" });
         }
 
         if (location.userId != request.authId) {
-            return response.status(400).json({ message: "Sem autorização para essa ação" });
+            return response.status(403).json({ message: "Sem autorização para essa ação" });
         }
 
-        const editedLocation = await prisma.Location.update({
+        const { name, max_people, address, description, logo_image, google_maps_url } = request.body;
+
+        const fieldsToUpdate = { name, max_people, address, description, logo_image, google_maps_url };
+        const hasAtLeastOneField = Object.keys(fieldsToUpdate).some(key => key in request.body);
+
+        if (!hasAtLeastOneField) {
+            return response.status(400).json({ message: "Envie ao menos um campo para ser editado" });
+        }
+
+        const dataToUpdate = {};
+        if ('name' in request.body) dataToUpdate.name = name;
+        if ('max_people' in request.body) dataToUpdate.max_people = max_people;
+        if ('address' in request.body) dataToUpdate.address = address;
+        if ('description' in request.body) dataToUpdate.description = description;
+        if ('logo_image' in request.body) dataToUpdate.logo_image = logo_image;
+        if ('google_maps_url' in request.body) dataToUpdate.google_maps_url = google_maps_url;
+
+        const editedLocation = await prisma.location.update({
             where: { id: location_id },
-            data: { name, max_people, address, description, logo_image, google_maps_url }
+            data: dataToUpdate
         });
 
         response.status(200).json({ message: "Local atualizado com sucesso", data: editedLocation });
-
     } catch (error) {
         console.error(error);
         return response.status(500).json({ message: 'Erro ao atualizar local' });
